@@ -38,8 +38,7 @@ import { Chats } from "./Chats";
 import { CreatePromptModal } from "./CreatePromptModal";
 import { DatabaseModal } from "./DatabaseModal";
 import { LogoText } from "./Logo";
-import { Prompts } from "./Prompts";
-import { SettingsModal } from "./SettingsModal";
+import { SettingsModalLlamaAi } from "./SettingsModalLlamaAi";
 import { config } from "../utils/config";
 
 declare global {
@@ -51,7 +50,7 @@ declare global {
 export function Layout() {
   const theme = useMantineTheme();
   const [opened, setOpened] = useState(false);
-  const [tab, setTab] = useState<"Chats" | "Prompts">("Chats");
+  const [tab, setTab] = useState<"Chats">("Chats");
   const { colorScheme, toggleColorScheme } = useMantineColorScheme();
   const navigate = useNavigate();
   const router = useRouter();
@@ -126,7 +125,7 @@ export function Layout() {
               fullWidth
               value={tab}
               onChange={(value) => setTab(value as typeof tab)}
-              data={["Chats", "Prompts"]}
+              data={["Chats"]}
             />
             <Box sx={{ padding: 4 }}>
               {tab === "Chats" && (
@@ -148,7 +147,6 @@ export function Layout() {
                   New Chat
                 </Button>
               )}
-              {tab === "Prompts" && <CreatePromptModal />}
             </Box>
           </Navbar.Section>
           <Navbar.Section
@@ -182,9 +180,6 @@ export function Layout() {
           </Navbar.Section>
           <Navbar.Section grow component={ScrollArea}>
             {tab === "Chats" && <Chats search={search} />}
-            {tab === "Prompts" && (
-              <Prompts search={search} onPlay={() => setTab("Chats")} />
-            )}
           </Navbar.Section>
           <Navbar.Section sx={{ borderTop: border }} p="xs">
             <Center>
@@ -206,13 +201,13 @@ export function Layout() {
                 </Tooltip>
               )}
               {config.allowSettingsModal && (
-                <SettingsModal>
+                <SettingsModalLlamaAi>
                   <Tooltip label="Settings">
                     <ActionIcon sx={{ flex: 1 }} size="xl">
                       <IconSettings size={20} />
                     </ActionIcon>
                   </Tooltip>
-                </SettingsModal>
+                </SettingsModalLlamaAi>
               )}
               {config.allowDatabaseModal && (
                 <DatabaseModal>
@@ -222,51 +217,6 @@ export function Layout() {
                     </ActionIcon>
                   </Tooltip>
                 </DatabaseModal>
-              )}
-              <Tooltip label="Source Code">
-                <ActionIcon
-                  component="a"
-                  href="https://github.com/deiucanta/chatpad"
-                  target="_blank"
-                  sx={{ flex: 1 }}
-                  size="xl"
-                >
-                  <IconBrandGithub size={20} />
-                </ActionIcon>
-              </Tooltip>
-              {config.showTwitterLink && (
-                <Tooltip label="Follow on Twitter">
-                  <ActionIcon
-                    component="a"
-                    href="https://twitter.com/deiucanta"
-                    target="_blank"
-                    sx={{ flex: 1 }}
-                    size="xl"
-                  >
-                    <IconBrandTwitter size={20} />
-                  </ActionIcon>
-                </Tooltip>
-              )}
-              {config.showFeedbackLink && (
-                <Tooltip label="Give Feedback">
-                  <ActionIcon
-                    component="a"
-                    href="https://feedback.chatpad.ai"
-                    onClick={(event) => {
-                      if (window.todesktop) {
-                        event.preventDefault();
-                        window.todesktop.contents.openUrlInBrowser(
-                          "https://feedback.chatpad.ai"
-                        );
-                      }
-                    }}
-                    target="_blank"
-                    sx={{ flex: 1 }}
-                    size="xl"
-                  >
-                    <IconMessage size={20} />
-                  </ActionIcon>
-                </Tooltip>
               )}
             </Center>
           </Navbar.Section>

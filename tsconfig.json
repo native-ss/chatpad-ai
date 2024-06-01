@@ -1,10 +1,15 @@
 {
   "include": ["src/**/*"],
   "compilerOptions": {
+    "target": "es6", // Ensures better support for modern JavaScript features
+    "module": "esnext",
     "jsx": "react-jsx",
     "esModuleInterop": true,
-    "lib": ["es2018", "dom"],
+    "lib": ["es2020", "dom"], // Update to a more recent ECMAScript standard
     "strict": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "moduleResolution": "node", // Ensures Node.js-style module resolution
+    "allowSyntheticDefaultImports": true, // Allows default imports from modules with no default export
+    "forceConsistentCasingInFileNames": true
   }
 }

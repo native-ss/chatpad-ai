@@ -29,8 +29,8 @@ export interface Settings {
   id: "general";
   openAiApiKey?: string;
   openAiModel?: string;
-  openAiApiType?: 'openai' | 'custom';
-  openAiApiAuth?: 'none' | 'bearer-token' | 'api-key';
+  openAiApiType?: "openai" | "custom";
+  openAiApiAuth?: "none" | "bearer-token" | "api-key";
   openAiApiBase?: string;
   openAiApiVersion?: string;
 }
@@ -43,7 +43,7 @@ export class Database extends Dexie {
 
   constructor() {
     super("chatpad");
-    this.version(2).stores({
+    this.version(3).stores({
       chats: "id, createdAt",
       messages: "id, chatId, createdAt",
       prompts: "id, createdAt",
@@ -51,14 +51,17 @@ export class Database extends Dexie {
     });
 
     this.on("populate", async () => {
+      console.log(`dave_log db.populate: `);
       db.settings.add({
         id: "general",
         openAiModel: config.defaultModel,
         openAiApiType: config.defaultType,
         openAiApiAuth: config.defaultAuth,
-        ...(config.defaultKey != '' && { openAiApiKey: config.defaultKey }),
-        ...(config.defaultBase != '' && { openAiApiBase: config.defaultBase }),
-        ...(config.defaultVersion != '' && { openAiApiVersion: config.defaultVersion }),
+        ...(config.defaultKey != "" && { openAiApiKey: config.defaultKey }),
+        ...(config.defaultBase != "" && { openAiApiBase: config.defaultBase }),
+        ...(config.defaultVersion != "" && {
+          openAiApiVersion: config.defaultVersion,
+        }),
       });
     });
   }

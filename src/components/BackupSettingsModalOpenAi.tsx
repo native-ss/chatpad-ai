@@ -19,7 +19,7 @@ import { db } from "../db";
 import { config } from "../utils/config";
 import { checkOpenAIKey } from "../utils/openai";
 
-export function SettingsModal({ children }: { children: ReactElement }) {
+export function SettingsModalOpenAi({ children }: { children: ReactElement }) {
   const [opened, { open, close }] = useDisclosure(false);
   const [submitting, setSubmitting] = useState(false);
 
@@ -134,7 +134,7 @@ export function SettingsModal({ children }: { children: ReactElement }) {
               setSubmitting(true);
               try {
                 await db.settings.update("general", {
-                  openAiApiType: value ?? 'openai',
+                  openAiApiType: value ?? "openai",
                 });
                 notifications.show({
                   title: "Saved",
@@ -161,7 +161,10 @@ export function SettingsModal({ children }: { children: ReactElement }) {
               }
             }}
             withinPortal
-            data={[{ "value": "openai", "label": "OpenAI"}, { "value": "custom", "label": "Custom (e.g. Azure OpenAI)"}]}
+            data={[
+              { value: "openai", label: "OpenAI" },
+              { value: "custom", label: "Custom (e.g. Azure OpenAI)" },
+            ]}
           />
           <Select
             label="OpenAI Model (OpenAI Only)"
@@ -210,7 +213,7 @@ export function SettingsModal({ children }: { children: ReactElement }) {
               setSubmitting(true);
               try {
                 await db.settings.update("general", {
-                  openAiApiAuth: value ?? 'none',
+                  openAiApiAuth: value ?? "none",
                 });
                 notifications.show({
                   title: "Saved",
@@ -237,7 +240,11 @@ export function SettingsModal({ children }: { children: ReactElement }) {
               }
             }}
             withinPortal
-            data={[{ "value": "none", "label": "None"}, { "value": "bearer-token", "label": "Bearer Token"}, { "value": "api-key", "label": "API Key"}]}
+            data={[
+              { value: "none", label: "None" },
+              { value: "bearer-token", label: "Bearer Token" },
+              { value: "api-key", label: "API Key" },
+            ]}
           />
           <form
             onSubmit={async (event) => {
